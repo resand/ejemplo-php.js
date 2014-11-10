@@ -3,7 +3,7 @@
 $HOSTNAME = "localhost"; 		//SERVIDOR   
 $USERNAME = "root";	     		//USUARIO
 $PASSWORD = "root";	     		//CONTRASENIA
-$DATABASE = "bd_sisepro";		//BASE DE DATOS
+$DATABASE = "inventarios";		//BASE DE DATOS
 
 
 function conectar(){

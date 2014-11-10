@@ -1,0 +1,27 @@
+.campo-invalido{
+    background-color: #FFE8E8 !important; 
+    color: #white !important; 
+    border: solid 2px #ff0000 !important;
+}
+
+label.campo-invalido{
+    position: relative; 
+    font-size: 10px; 
+    color: #ffffff; 
+    background: #B80000 !important; 
+    padding: 3px 5px;
+}
+
+.info-error {
+	color: red;
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.info-insertado {
+	color: green;
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+}
