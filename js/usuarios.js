@@ -1,7 +1,8 @@
 var Opciones = {
     Crear: 1,
     Modificar: 2,
-    CompletarModificar: 3
+    CompletarModificar: 3,
+    Eliminar: 4
 };
 
 //UNICIALIAMOS LA FUNCION PARA USAR JQUERY
@@ -91,7 +92,6 @@ $('#form-modificar').validate({
                 $('#respuesta').html('<div class="'+response.clase+'">'+response.mensaje+'</div>');
                 $('#modal_update_usuario').modal('hide');
                 $('#modal_info').modal('show');
-
             }
        });//fin funcion .ajax
     }
@@ -125,6 +125,26 @@ function modificar_usuario(id){
                 $('#perfil_up').val(datos.perfil);
             });
             $('#modal_update_usuario').modal('show');
+        }
+   });//fin funcion .ajax
+}
+
+function eliminar_usuario(id){
+     $.ajax({
+        url:  "php/usuarios.php?opcion="+Opciones.Eliminar,
+        type: "POST",
+        data: {id:id},
+        dataType: "json",
+        beforeSend: function(XMLHttpRequest){  
+            $('#info-cargando').html('<span class="label label-success">Cargando...</span>');
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            $('#info-cargando').html('<span class="label label-danger">Ocurrio un error extraño...</span>');
+        },
+        success:function(response){
+            $('#info-cargando').html('');
+            $('#respuesta').html('<div class="'+response.clase+'">'+response.mensaje+'</div>');
+            $('#modal_info').modal('show');
         }
    });//fin funcion .ajax
 }

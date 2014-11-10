@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 require_once('conex.php');
 conectar();
 
@@ -15,6 +15,10 @@ switch ($opcion) {
 
     case 3:
         completar_modificar_usuario();
+        break;
+
+    case 4:
+        eliminar_usuario();
         break;
 
 	default:
@@ -80,6 +84,25 @@ function completar_modificar_usuario() {
     }else{
         $sql = mysql_query("UPDATE Usuarios SET nombres = '$nombres', apellidos = '$apellidos', usuario = '$usuario', perfil = '$perfil' WHERE id_usuario = '$id'");
         echo json_encode(array('mensaje' => 'El usuario se ha modificado correctamente.', 'clase' => 'info-insertado'));
+    }
+}
+
+function eliminar_usuario() {
+    
+    $id = trim($_POST['id']);
+    $id_usuario_activo = $_SESSION['id_usuario'];
+
+    conectar();
+    mysql_query("SET NAMES 'utf8'");
+
+    //CONSULTA DE USUARIO ACTIVO && Administrador
+    $usuario_activo = mysql_query("SELECT usuario FROM Usuarios WHERE id_usuario = '$id_usuario_activo' AND id_usuario = '$id' AND perfil = 1");
+
+    if (mysql_num_rows($usuario_activo) > 0 ){
+        echo json_encode(array('mensaje' => 'No es posible eliminar un usuario con sesión activa y con perfil de administrador', 'clase' => 'info-error'));
+    } else {
+        $sql = mysql_query("UPDATE Usuarios SET activo = 0 WHERE id_usuario = '$id'");
+        echo json_encode(array('mensaje' => 'El usuario se ha eliminado correctamente.', 'clase' => 'info-insertado'));
     }
 }
 

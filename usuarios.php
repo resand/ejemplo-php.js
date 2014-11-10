@@ -17,7 +17,7 @@ if(!isset($_SESSION['estado']) && !isset($_SESSION['perfil'])){
 include 'php/conex.php';
 conectar();
 mysql_query("SET NAMES 'utf8'");
-$result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM Usuarios");
+$result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM Usuarios WHERE activo = 1");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -130,11 +130,11 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 	</div><!-- fin container-fluid -->
 
 	<!-- Modal de información -->
-	<div class="modal fade bs-example-modal-sm" id="modal_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade bs-example-modal-sm" id="modal_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
 	  <div class="modal-dialog modal-sm">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerar</span></button>
+	        <button type="button" class="close" data-dismiss="modal"></button>
 	        <h4 class="modal-title" id="myModalLabel">Información</h4>
 	      </div>
 	      <div class="modal-body">
@@ -184,7 +184,7 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 						<div class="form-group">
 							<span id="info-cargando_up"></span>
 						</div>
-						<button type="submit" class="btn btn-success">Crear</button>
+						<button type="submit" class="btn btn-success">Modificar</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 					</form>
 				</div>
