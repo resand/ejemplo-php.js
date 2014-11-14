@@ -17,7 +17,8 @@ if(!isset($_SESSION['estado']) && !isset($_SESSION['perfil'])){
 include 'php/conex.php';
 conectar();
 mysql_query("SET NAMES 'utf8'");
-$result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM Usuarios WHERE activo = 1");
+$result=mysql_query("SELECT id_proveedor, rfc, razon_social, direccion, codigo_postal, correo ,telefono FROM Proveedores WHERE activo = 1");
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,40 +34,39 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 
 <body>
 	<div class="container-fluid">
-		<div id="tabla-usuarios" class="row">
+		<div id="tabla-proveedor" class="row">
 			<div class="col-md-10 col-md-offset-1">
-				<table id="tbl_usuarios" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+				<table id="tbl_proveedor" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 		              <thead>
 			               <tr>
-			                  <th>Nombres</th>
-			                  <th>Apellidos</th>
-			                  <th>Usuario</th>
-			                  <th>Perfil</th>
+			                  <th>Razon social</th>
+			                  <th>Direccion</th>
+			                  <th>RFC</th>
+			                  <th>CP</th>
+			                  <th>Correo </th>
+			                  <th>Telefono</th>
 			                  <th>Opciones</th>
+			                  
+			                  
 			               </tr>
 		              </thead>
-		              <tfoot>
-			               <tr>
-			                 <th>Nombres</th>
-			                  <th>Apellidos</th>
-			                  <th>Usuario</th>
-			                  <th>Perfil</th>
-			                  <th>Opciones</th>
-			               </tr>
-		              </tfoot>
+		              
 		              <tbody>
 		               <?php while($rows=mysql_fetch_array($result)){ ?>
 		               <tr>
-		                  <td><?php echo $rows['nombres']; ?></td>
-		                  <td><?php echo $rows['apellidos']; ?></td>
-		                  <td><?php echo $rows['usuario']; ?></td>
-		                  <td>
-		                  	<?php if ($rows['perfil'] == 1): ?>
-		                  		Administrador
-		                  	<?php else: ?>
-		                  		Invitado
-		                  	<?php endif; ?>
-		                  </td>
+		                  <td><?php echo $rows['razon_social']; ?></td>
+		                  <td><?php echo $rows['direccion']; ?></td>
+		                  <td><?php echo $rows['rfc']; ?></td>
+		                   <td><?php echo $rows['codigo_postal']; ?></td>
+		                    <td><?php echo $rows['correo']; ?></td>
+		                     <td><?php echo $rows['telefono']; ?></td>
+		                     
+		                  
+		                  	
+		                  
+		                 
+		                  
+		                  
 		                  <td>
 		                  	<div class="btn-group">
 								<button type="button" class="btn btn-warning">Opciones</button>
@@ -74,8 +74,8 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 									    <span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li><a onclick="modificar_usuario(<?php echo $rows['id_usuario']; ?>);">Modificar</a></li>
-									<li><a onclick="eliminar_usuario(<?php echo $rows['id_usuario']; ?>);">Eliminar</a></li>
+									<li><a onclick="modificar_proveedor(<?php echo $rows['id_proveedor']; ?>);">Modificar</a></li>
+									<li><a onclick="eliminar_usuario(<?php echo $rows['id_proveedor']; ?>);">Eliminar</a></li>
 								</ul>
 							</div>
 		                  </td>
@@ -85,39 +85,35 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 	             </table>
 			</div>
 		</div>
-		<button type="button" id="bt_mostrar_form_crear_usuario" class="btn btn-success">Agregar</button>
+		<button type="button" id="bt_mostrar_form_crear_proveedor" class="btn btn-success">Agregar</button>
 
-		<div id="formulario-crear-usuario" class="row" style="display:none;">
+		<div id="formulario-crear-proveedor" class="row" style="display:none;">
 			<div class="col-md-4 col-md-offset-4">
-				<h1>Crear Usuario</h1>
-				<form id="form-crear" action="php/usuarios.php" method="post" accept-charset="utf-8" >
+				<h1>Agregar Nuevo Proveedor</h1>
+				<form id="form-crear" action="php/proveedores.php" method="post" accept-charset="utf-8" >
 					<div class="form-group">
-						<label for="nombres">Nombres:</label>
-						<input type="text" name="nombres" class="form-control">
+						<label for="razon_social">Razon social o Nombre:</label>
+						<input type="text" name="razon_social" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="apellidos">Apellidos:</label>
-						<input type="text" name="apellidos" class="form-control">
+						<label for="direccion">Direccion:</label>
+						<input type="text" name="direccion" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="usuario">Usuario:</label>
-						<input type="text" name="usuario" class="form-control">
+						<label for="rfc">RFC:</label>
+						<input type="text" name="rfc" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="contrasena">Contraseña:</label>
-						<input type="password" id="contrasena" name="contrasena" class="form-control">
+						<label for="codigo_postal">Codigo Postal:</label>
+						<input type="text"  name="codigo_postal" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="contrasena_confi">Confirme Contraseña:</label>
-						<input type="password" name="contrasena_confi" class="form-control">
+						<label for="correo">Correo:</label>
+						<input type="email" name="correo" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="perfil">Perfil:</label>
-							<select class="form-control" name="perfil">
-								<option value="">Seleccione un perfil de usuarios</option>
-							  	<option value="1">Administrador</option>
-							  	<option value="2">Invitado</option>
-							</select>					
+						<label for="telefono">Telefono:</label>
+						<input type="tel" name="telefono" class="form-control">
 					</div>
 					<div class="form-group">
 						<span id="info-cargando"></span>
@@ -148,39 +144,44 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 	</div>
 
 	<!-- Modal para actualizar datos -->
-	<div class="modal fade " id="modal_update_usuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade " id="modal_update_proveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerar</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Modificar Usuario</h4>
+	        <h4 class="modal-title" id="myModalLabel">Modificar Proveedor</h4>
 	      </div>
 	      <div class="modal-body">
 	      	<!-- INICIO PORMULARIO DE ACTUALIZAR -->
 	      	<div class="row">
 				<div class="col-md-10 col-md-offset-1">
-					<form id="form-modificar" action="php/usuarios.php" method="post" accept-charset="utf-8" >
-						<input type="hidden" id="id_usuario" name="id_usuario" class="form-control">
-						<div class="form-group">
-							<label for="nombres">Nombres:</label>
-							<input type="text" id="nombres_up" name="nombres" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="apellidos">Apellidos:</label>
-							<input type="text" id="apellidos_up" name="apellidos" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="usuario">Usuario:</label>
-							<input type="text" id="usuario_up" name="usuario" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="perfil">Perfil:</label>
-								<select class="form-control" id="perfil_up" name="perfil">
-									<option value="">Seleccione un perfil de usuarios</option>
-								  	<option value="1">Administrador</option>
-								  	<option value="2">Invitado</option>
-								</select>					
-						</div>
+					<form id="form-modificar" action="php/proveedores.php" method="post" accept-charset="utf-8" >
+						<input type="hidden" id="id_proveedor" name="id_proveedor" class="form-control">
+							<div class="form-group">
+						<label for="razon_social">Razon social o Nombre:</label>
+						<input type="text" name="razon_social" id="razon_up" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="direccion">Direccion:</label>
+						<input type="text" name="direccion" id="direccion_up" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="rfc">RFC:</label>
+						<input type="text" name="rfc"  id="rfc_up" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="codigo_postal">Codigo Postal:</label>
+						<input type="text"  name="codigo_postal" id="codigop_up" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="correo">Correo:</label>
+						<input type="email" name="correo"  id="correo_up" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="telefono">Telefono:</label>
+						<input type="tel" name="telefono" id="telefono_up" class="form-control">
+					</div>
+
 						<div class="form-group">
 							<span id="info-cargando_up"></span>
 						</div>
@@ -198,7 +199,7 @@ $result=mysql_query("SELECT id_usuario, nombres, apellidos, usuario, perfil FROM
 	<script src="js/jquery-2.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/jquery.validate.js"></script>
-	<script src="js/usuarios.js"></script>
+	<script src="js/proveedores.js"></script>
 	<script src="js/jquery.dataTables.js"></script>
 	<script src="js/dataTables.bootstrap.js"></script>
 </body>
